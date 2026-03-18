@@ -93,11 +93,19 @@ export default function Card({ item }: CardProps) {
     e.stopPropagation()
     if (!confirm(`Delete "${item.left} 🤝 ${item.right}"?`)) return
     setDeleted(true)
-    fetch('/api/delete', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: item.id, secret }),
-    }).catch(() => setDeleted(false))
+    try {
+      const res = await fetch('/api/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: item.id, secret }),
+      })
+      if (!res.ok) {
+        setDeleted(false)
+        alert('Delete failed — check ADMIN_SECRET is set in Vercel env vars.')
+      }
+    } catch {
+      setDeleted(false)
+    }
   }
 
   const pxFont = { fontFamily: 'var(--font-pixel)' }
