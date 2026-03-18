@@ -5,13 +5,14 @@ import Nav from '@/components/Nav'
 import Handshake from '@/components/Handshake'
 import Marquee from '@/components/Marquee'
 import Card from '@/components/Card'
-import ThemePicker from '@/components/ThemePicker'
 import TemplatePacks from '@/components/TemplatePacks'
 import TrendingStrip from '@/components/TrendingStrip'
 import DailyHandshake from '@/components/DailyHandshake'
 import { getRandomSeed } from '@/lib/seeds'
 import { getBrowserClient, type Handshake as HandshakeType } from '@/lib/supabase'
 import { DEFAULT_THEME, type Theme } from '@/lib/themes'
+import { useSlotMachine } from '@/lib/useSlotMachine'
+import HowItWorks from '@/components/HowItWorks'
 
 const PAGE_SIZE = 12
 type Tab = 'today' | 'week' | 'alltime' | 'new'
@@ -42,7 +43,25 @@ function HomePageContent({ initialItems, initialHasMore, totalCount: initialTota
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [copied, setCopied]   = useState(false)
   const [totalCount, setTotalCount]   = useState(initialTotal)
-  const [theme, setTheme]     = useState<Theme>(DEFAULT_THEME)
+  const [theme, setTheme]       = useState<Theme>(DEFAULT_THEME)
+  const [search, setSearch]     = useState('')
+  const [copiedText, setCopiedText] = useState(false)
+  const [spinning, setSpinning] = useState<{ left: boolean; right: boolean; center: boolean }>({ left: false, right: false, center: false })
+  const [flash, setFlash]     = useState<{ left: boolean; right: boolean; center: boolean }>({ left: false, right: false, center: false })
+  const [leverPressed, setLeverPressed] = useState(false)
+
+  const { spin: runSlot, cancel: cancelSlot } = useSlotMachine({
+    onUpdate: useCallback((field, value, isSpinning) => {
+      if (field === 'left')   setLeft(value)
+      if (field === 'right')  setRight(value)
+      if (field === 'center') setCenter(value)
+      setSpinning(s => ({ ...s, [field]: isSpinning }))
+    }, []),
+    onFlash: useCallback((field) => {
+      setFlash(f => ({ ...f, [field]: true }))
+      setTimeout(() => setFlash(f => ({ ...f, [field]: false })), 400)
+    }, []),
+  })
 
   // Wall state
   const [tab, setTab]         = useState<Tab>('today')
@@ -117,9 +136,14 @@ function HomePageContent({ initialItems, initialHasMore, totalCount: initialTota
 
   function handleRandom() {
     const seed = getRandomSeed()
-    setLeft(seed.left); setRight(seed.right); setCenter(seed.center)
     setRendered(true)
     setSubmitStatus('idle')
+    // Lever animation
+    setLeverPressed(true)
+    setTimeout(() => setLeverPressed(false), 200)
+    // Start slot machine — cancels any existing spin automatically
+    cancelSlot()
+    runSlot(seed)
   }
 
   async function handleDownload() {
@@ -145,6 +169,15 @@ function HomePageContent({ initialItems, initialHasMore, totalCount: initialTota
     await navigator.clipboard.writeText(url)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
+  }
+
+  async function handleCopyAsText() {
+    const text = center
+      ? `${left} 🤝 ${right} — "${center}"`
+      : `${left} 🤝 ${right}`
+    await navigator.clipboard.writeText(text)
+    setCopiedText(true)
+    setTimeout(() => setCopiedText(false), 2000)
   }
 
   function handleTwitterShare() {
@@ -218,7 +251,6 @@ function HomePageContent({ initialItems, initialHasMore, totalCount: initialTota
           two sides. one handshake. build the truth.
         </p>
 
-        <ThemePicker selected={theme.id} onChange={setTheme} />
         <Handshake left={left} right={right} center={center} theme={theme} />
 
         {/* Inputs */}
@@ -227,35 +259,64 @@ function HomePageContent({ initialItems, initialHasMore, totalCount: initialTota
             <input
               ref={leftInputRef}
               value={left}
-              onChange={e => setLeft(e.target.value)}
+              onChange={e => { cancelSlot(); setLeft(e.target.value) }}
               onKeyDown={e => e.key === 'Enter' && handleGenerate()}
               placeholder="left hand..."
+              readOnly={spinning.left}
               className="flex-1 border border-gray-200 rounded-lg px-3.5 py-3 text-[9px] leading-none outline-none transition-all focus:border-black focus:shadow-[3px_3px_0_#111] placeholder:text-gray-300 bg-white text-black"
-              style={pxFont}
+              style={{
+                ...pxFont,
+                filter: spinning.left ? 'blur(1.5px)' : 'none',
+                backgroundColor: flash.left ? '#FFE033' : '',
+                transition: 'filter 0.05s, background-color 0.4s',
+              }}
             />
             <input
               value={right}
-              onChange={e => setRight(e.target.value)}
+              onChange={e => { cancelSlot(); setRight(e.target.value) }}
               onKeyDown={e => e.key === 'Enter' && handleGenerate()}
               placeholder="right hand..."
+              readOnly={spinning.right}
               className="flex-1 border border-gray-200 rounded-lg px-3.5 py-3 text-[9px] leading-none outline-none transition-all focus:border-black focus:shadow-[3px_3px_0_#111] placeholder:text-gray-300 bg-white text-black"
-              style={pxFont}
+              style={{
+                ...pxFont,
+                filter: spinning.right ? 'blur(1.5px)' : 'none',
+                backgroundColor: flash.right ? '#FFE033' : '',
+                transition: 'filter 0.05s, background-color 0.4s',
+              }}
             />
           </div>
           <input
             value={center}
-            onChange={e => setCenter(e.target.value)}
+            onChange={e => { cancelSlot(); setCenter(e.target.value) }}
             onKeyDown={e => e.key === 'Enter' && handleGenerate()}
             placeholder="what they secretly agree on... (optional)"
+            readOnly={spinning.center}
             className="w-full bg-gray-50 border border-gray-100 rounded-lg px-3.5 py-3 text-[8px] leading-none outline-none text-center transition-all focus:border-black focus:shadow-[3px_3px_0_#111] focus:bg-white placeholder:text-gray-300 text-black"
-            style={pxFont}
+            style={{
+              ...pxFont,
+              filter: spinning.center ? 'blur(1.5px)' : 'none',
+              backgroundColor: flash.center ? '#FFE033' : '',
+              transition: 'filter 0.05s, background-color 0.4s',
+            }}
           />
         </div>
 
         {/* Buttons */}
         <div className="mt-4 flex flex-wrap gap-2 justify-center">
           <button onClick={handleGenerate} className={`${btnBase} bg-[#FFD600] border-black shadow-[3px_3px_0_#111]`} style={pxFont}>generate</button>
-          <button onClick={handleRandom} className={`${btnBase} bg-white border-gray-200 hover:border-black`} style={pxFont}>random</button>
+          <button
+            onClick={handleRandom}
+            className={`${btnBase} bg-white border-gray-200 hover:border-black`}
+            style={{
+              ...pxFont,
+              transform: leverPressed ? 'translateY(3px) translateX(1px)' : '',
+              boxShadow: leverPressed ? 'none' : '',
+              transition: 'transform 0.1s, box-shadow 0.1s',
+            }}
+          >
+            🎰 random
+          </button>
           <button onClick={handleDownload} disabled={!rendered || downloading} className={`${btnBase} bg-white border-gray-200 hover:border-black`} style={pxFont}>{downloading ? 'saving...' : 'download'}</button>
         </div>
 
@@ -276,6 +337,13 @@ function HomePageContent({ initialItems, initialHasMore, totalCount: initialTota
                 style={pxFont}
               >
                 {copied ? '✓ copied!' : 'copy link'}
+              </button>
+              <button
+                onClick={handleCopyAsText}
+                className="border border-gray-200 rounded-md px-3 py-2 text-[7px] leading-none bg-white transition-all hover:border-black hover:shadow-[2px_2px_0_#111]"
+                style={pxFont}
+              >
+                {copiedText ? '✓ copied!' : 'copy as text'}
               </button>
               <button
                 onClick={handleTwitterShare}
@@ -310,6 +378,9 @@ function HomePageContent({ initialItems, initialHasMore, totalCount: initialTota
       {/* ─── MARQUEE DIVIDER ─── */}
       <Marquee />
 
+      {/* ─── HOW IT WORKS ─── */}
+      <HowItWorks />
+
       {/* ─── WALL ─── */}
       <div id="wall" className="max-w-5xl mx-auto w-full px-4 py-12">
         <h2 className="text-xl sm:text-2xl leading-[1.5] mb-8 text-black" style={pxFont}>
@@ -319,44 +390,69 @@ function HomePageContent({ initialItems, initialHasMore, totalCount: initialTota
         <TrendingStrip />
         <DailyHandshake item={dailyItem} />
 
-        {/* Tabs */}
-        <div className="inline-flex border border-black rounded overflow-hidden mb-8">
-          {wallTabs.map((t, i) => (
-            <button
-              key={t.key}
-              onClick={() => switchTab(t.key)}
-              className={`px-4 py-2 text-[8px] leading-none transition-colors ${i < wallTabs.length - 1 ? 'border-r border-black' : ''} ${tab === t.key ? 'bg-black text-white' : 'bg-white text-gray-500 hover:bg-gray-50'}`}
-              style={pxFont}
-            >
-              {t.label}
+        {/* Search + Tabs row */}
+        <div className="flex flex-wrap items-center gap-3 mb-8">
+          <div className="inline-flex border border-black rounded overflow-hidden">
+            {wallTabs.map((t, i) => (
+              <button
+                key={t.key}
+                onClick={() => switchTab(t.key)}
+                className={`px-4 py-2 text-[8px] leading-none transition-colors ${i < wallTabs.length - 1 ? 'border-r border-black' : ''} ${tab === t.key ? 'bg-black text-white' : 'bg-white text-gray-500 hover:bg-gray-50'}`}
+                style={pxFont}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+          <input
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            placeholder="search handshakes..."
+            className="border border-gray-200 rounded-lg px-3.5 py-2 text-[8px] leading-none outline-none transition-all focus:border-black focus:shadow-[3px_3px_0_#111] placeholder:text-gray-300 bg-white text-black"
+            style={pxFont}
+          />
+          {search && (
+            <button onClick={() => setSearch('')} className="text-[7px] text-gray-400 hover:text-black transition-colors" style={pxFont}>
+              clear ✕
             </button>
-          ))}
+          )}
         </div>
 
         {/* Grid */}
-        {wallLoading && items.length === 0 ? (
-          <p className="text-[8px] text-gray-400" style={pxFont}>loading...</p>
-        ) : items.length === 0 ? (
-          <p className="text-[8px] text-gray-400" style={pxFont}>no handshakes yet — be the first!</p>
-        ) : (
-          <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {items.map(item => <Card key={item.id} item={item} />)}
-            </div>
-            {hasMore && (
-              <div className="mt-8 text-center">
-                <button
-                  onClick={loadMore}
-                  disabled={wallLoading}
-                  className="bg-white border border-gray-200 rounded-lg px-6 py-3 text-[8px] transition-all hover:border-black hover:shadow-[3px_3px_0_#111] hover:-translate-x-0.5 hover:-translate-y-0.5 disabled:opacity-50"
-                  style={pxFont}
-                >
-                  {wallLoading ? 'loading...' : 'load more'}
-                </button>
+        {(() => {
+          const filtered = search.trim()
+            ? items.filter(item =>
+                [item.left, item.right, item.center ?? ''].some(s =>
+                  s.toLowerCase().includes(search.toLowerCase())
+                )
+              )
+            : items
+          return wallLoading && items.length === 0 ? (
+            <p className="text-[8px] text-gray-400" style={pxFont}>loading...</p>
+          ) : filtered.length === 0 ? (
+            <p className="text-[8px] text-gray-400" style={pxFont}>
+              {search ? `no results for "${search}"` : 'no handshakes yet — be the first!'}
+            </p>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {filtered.map(item => <Card key={item.id} item={item} />)}
               </div>
-            )}
-          </>
-        )}
+              {hasMore && !search && (
+                <div className="mt-8 text-center">
+                  <button
+                    onClick={loadMore}
+                    disabled={wallLoading}
+                    className="bg-white border border-gray-200 rounded-lg px-6 py-3 text-[8px] transition-all hover:border-black hover:shadow-[3px_3px_0_#111] hover:-translate-x-0.5 hover:-translate-y-0.5 disabled:opacity-50"
+                    style={pxFont}
+                  >
+                    {wallLoading ? 'loading...' : 'load more'}
+                  </button>
+                </div>
+              )}
+            </>
+          )
+        })()}
       </div>
     </main>
   )

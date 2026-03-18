@@ -7,13 +7,14 @@ export default function Nav() {
   const isHome = pathname === '/' || pathname === '/s'
 
   const links = [
-    { href: '/#generator', label: 'generate', scrollTo: 'generator' },
-    { href: '/#wall',      label: 'wall',     scrollTo: 'wall' },
-    { href: '/stats',      label: 'stats',    scrollTo: '' },
+    { href: '/#generator',    label: 'generate', scrollTo: 'generator' },
+    { href: '/stats',         label: 'stats',    scrollTo: '' },
+    { href: '/hall-of-fame',  label: '👑 hof',   scrollTo: '' },
+    { href: '/lore',          label: 'lore',     scrollTo: '' },
   ]
 
   function handleScroll(e: React.MouseEvent, scrollTo: string) {
-    if (!isHome) return
+    if (!isHome || !scrollTo) return
     e.preventDefault()
     document.getElementById(scrollTo)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
@@ -33,10 +34,19 @@ export default function Nav() {
           </Link>
         ))}
         <a
+          href="https://pump.fun"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="px-4 py-2 text-[9px] leading-none transition-colors border-l border-black bg-[#FFD600] text-black hover:bg-yellow-300"
+          style={{ fontFamily: 'var(--font-pixel)' }}
+        >
+          buy
+        </a>
+        <a
           href="https://twitter.com/intent/tweet?text=Check+out+ShakeOn+%F0%9F%A4%9D&url=https://shakeon.vercel.app"
           target="_blank"
           rel="noopener noreferrer"
-          className="px-4 py-2 text-[9px] leading-none transition-colors bg-white text-black hover:bg-gray-100"
+          className="px-4 py-2 text-[9px] leading-none transition-colors border-l border-black bg-white text-black hover:bg-gray-100"
           style={{ fontFamily: 'var(--font-pixel)' }}
         >
           twitter

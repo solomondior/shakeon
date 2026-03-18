@@ -6,7 +6,13 @@ export interface Handshake {
   right: string
   center: string | null
   upvotes: number
+  react_laugh: number
+  react_skull: number
+  react_shake: number
   created_at: string
+  hall_of_fame: boolean
+  inducted_at: string | null
+  era: string | null
 }
 
 let _client: SupabaseClient | null = null

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Press_Start_2P } from 'next/font/google'
 import './globals.css'
 import Splash from '@/components/Splash'
+import HofBanner from '@/components/HofBanner'
 
 const pressStart2P = Press_Start_2P({
   weight: '400',
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={pressStart2P.variable}>
       <body className="bg-white text-black antialiased">
         <Splash />
+        <HofBanner />
         {children}
       </body>
     </html>
