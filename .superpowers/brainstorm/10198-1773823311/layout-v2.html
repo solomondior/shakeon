@@ -1,0 +1,390 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&display=swap');
+
+  .pw {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+    color: #111;
+    max-width: 900px;
+    margin: 0 auto 32px;
+    box-shadow: 0 2px 24px rgba(0,0,0,0.10);
+  }
+
+  /* NAV */
+  .nav2 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 28px;
+    border-bottom: 2px solid #f0f0f0;
+    background: #fff;
+  }
+  .logo2 {
+    font-family: 'Bangers', cursive;
+    font-size: 26px;
+    letter-spacing: 2px;
+    color: #111;
+  }
+  .logo2 span { color: #FFD600; }
+  .nav2-links { display: flex; gap: 20px; font-size: 13px; font-weight: 600; color: #555; }
+  .nav2-links a { text-decoration: none; color: #555; }
+  .nav2-links a:hover { color: #111; }
+
+  /* HERO */
+  .hero2 {
+    padding: 44px 28px 36px;
+    text-align: center;
+    background: #fff;
+  }
+  .hero2 h1 {
+    font-family: 'Bangers', cursive;
+    font-size: 64px;
+    letter-spacing: 3px;
+    line-height: 1;
+    color: #111;
+    margin: 0 0 6px;
+  }
+  .hero2 h1 em { color: #FFD600; font-style: normal; }
+  .hero2 .sub { color: #888; font-size: 15px; margin: 0 0 32px; }
+
+  /* MEME CANVAS */
+  .meme2 {
+    position: relative;
+    width: 560px;
+    margin: 0 auto 28px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 3px solid #111;
+    box-shadow: 6px 6px 0 #FFD600;
+  }
+  .meme2 img {
+    width: 100%;
+    display: block;
+  }
+  .ml {
+    position: absolute;
+    background: #fff;
+    border: 2.5px solid #111;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-family: 'Bangers', cursive;
+    font-size: 20px;
+    letter-spacing: 1px;
+    color: #111;
+    white-space: nowrap;
+    box-shadow: 3px 3px 0 #FFD600;
+  }
+  .ml-left  { top: 12px; left: 12px; }
+  .ml-right { top: 12px; right: 12px; }
+  .ml-center {
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    background: #FFD600;
+    border-color: #111;
+    box-shadow: 3px 3px 0 #111;
+    white-space: nowrap;
+  }
+
+  /* INPUTS */
+  .input-group {
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .input-row { display: flex; gap: 10px; margin-bottom: 10px; }
+  .inp2 {
+    flex: 1;
+    background: #fff;
+    border: 2px solid #111;
+    border-radius: 8px;
+    padding: 11px 14px;
+    color: #111;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    outline: none;
+    box-shadow: 3px 3px 0 #e0e0e0;
+  }
+  .inp2:focus { border-color: #FFD600; box-shadow: 3px 3px 0 #FFD600; }
+  .inp2-center {
+    width: 100%;
+    background: #fff;
+    border: 2px solid #111;
+    border-radius: 8px;
+    padding: 11px 14px;
+    color: #777;
+    font-size: 13px;
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+    outline: none;
+    box-shadow: 3px 3px 0 #e0e0e0;
+    margin-bottom: 16px;
+  }
+  .btn-row2 { display: flex; gap: 10px; justify-content: center; }
+  .btn2 {
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    border: 2px solid #111;
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+  .btn2:active { transform: translate(2px, 2px); box-shadow: none !important; }
+  .btn2-primary {
+    background: #FFD600;
+    color: #111;
+    box-shadow: 4px 4px 0 #111;
+  }
+  .btn2-ghost {
+    background: #fff;
+    color: #111;
+    box-shadow: 4px 4px 0 #e0e0e0;
+  }
+
+  /* MARQUEE */
+  .marquee2 {
+    border-top: 2px solid #111;
+    border-bottom: 2px solid #111;
+    padding: 10px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: 600;
+    color: #555;
+    background: #FFFDE7;
+    margin-top: 32px;
+  }
+  .marquee2-inner { display: inline-block; animation: mq 20s linear infinite; }
+  .mq-item { display: inline-block; padding: 0 24px; }
+  .mq-hs { color: #111; font-family: 'Bangers', cursive; font-size: 16px; }
+  @keyframes mq { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* WALL */
+  .wall2 {
+    background: #fafafa;
+    padding: 36px 28px;
+    border-top: 2px solid #f0f0f0;
+  }
+  .wall2 h2 {
+    font-family: 'Bangers', cursive;
+    font-size: 36px;
+    letter-spacing: 2px;
+    margin: 0 0 16px;
+    color: #111;
+  }
+  .tabs2 { display: flex; gap: 8px; margin-bottom: 20px; }
+  .tab2 {
+    padding: 7px 18px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    border: 2px solid #111;
+  }
+  .tab2.on { background: #111; color: #fff; }
+  .tab2.off { background: #fff; color: #555; }
+  .card-grid2 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .fc2 {
+    background: #fff;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 16px;
+    transition: box-shadow 0.15s, border-color 0.15s, transform 0.15s;
+  }
+  .fc2:hover {
+    border-color: #111;
+    box-shadow: 4px 4px 0 #FFD600;
+    transform: translate(-1px, -1px);
+  }
+  .fc2-hs {
+    font-family: 'Bangers', cursive;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    color: #111;
+    margin-bottom: 4px;
+  }
+  .fc2-c { font-size: 11px; color: #666; font-style: italic; margin-bottom: 10px; }
+  .fc2-footer { display: flex; justify-content: space-between; align-items: center; }
+  .upvote2 {
+    background: #fff;
+    border: 2px solid #111;
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #111;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 #e0e0e0;
+  }
+  .upvote2:hover { background: #FFD600; box-shadow: 2px 2px 0 #111; }
+  .share2 { font-size: 11px; color: #aaa; cursor: pointer; font-weight: 600; }
+  .share2:hover { color: #111; }
+
+  /* SUBMIT BANNER */
+  .submit-bar {
+    background: #FFD600;
+    border: 2px solid #111;
+    border-radius: 10px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 560px;
+    margin: 20px auto 0;
+    box-shadow: 4px 4px 0 #111;
+  }
+  .submit-bar span { font-size: 13px; font-weight: 700; color: #111; }
+  .submit-bar button {
+    background: #111;
+    color: #fff;
+    border: 2px solid #111;
+    border-radius: 6px;
+    padding: 8px 18px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+  }
+</style>
+
+<h2>ShakeOn — Revised Design (White / Comic Style)</h2>
+<p class="subtitle">Bold borders, yellow shadow accents, white background — fun meme-site energy</p>
+
+<!-- GENERATOR PAGE -->
+<div class="section">
+  <div class="label">Page 1 — Generator</div>
+  <div class="pw">
+    <div class="nav2">
+      <div class="logo2">SHAKE<span>ON</span> 🤝</div>
+      <div class="nav2-links">
+        <a href="#">Generate</a>
+        <a href="#">Wall</a>
+        <a href="#">Twitter ↗</a>
+      </div>
+    </div>
+
+    <div class="hero2">
+      <h1>THE MEME<br>THAT <em>UNITES</em></h1>
+      <p class="sub">Two sides. One handshake. Make your meme.</p>
+
+      <div class="meme2">
+        <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=560&h=260&fit=crop&crop=center" alt="Handshake" />
+        <div class="ml ml-left">Vegans</div>
+        <div class="ml ml-right">Carnivores</div>
+        <div class="ml ml-center">making diet a personality</div>
+      </div>
+
+      <div class="input-group">
+        <div class="input-row">
+          <input class="inp2" placeholder="Left Hand  (e.g. Vegans)" value="Vegans" />
+          <input class="inp2" placeholder="Right Hand (e.g. Carnivores)" value="Carnivores" />
+        </div>
+        <input class="inp2-center" placeholder="What they agree on… (optional)" value="making diet a personality" />
+        <div class="btn-row2">
+          <button class="btn2 btn2-primary">⚡ Generate</button>
+          <button class="btn2 btn2-ghost">🎲 Random</button>
+          <button class="btn2 btn2-ghost">⬇ Download</button>
+        </div>
+      </div>
+
+      <div class="submit-bar">
+        <span>Love this meme? Submit it to the Wall!</span>
+        <button>Submit →</button>
+      </div>
+    </div>
+
+    <div class="marquee2">
+      <div class="marquee2-inner">
+        <span class="mq-item">iPhone users <span class="mq-hs">🤝</span> Android users — "judging green bubbles"</span>
+        <span class="mq-item">Frontend devs <span class="mq-hs">🤝</span> Backend devs — "blaming DevOps"</span>
+        <span class="mq-item">Vegans <span class="mq-hs">🤝</span> Carnivores — "making diet a personality"</span>
+        <span class="mq-item">Dog people <span class="mq-hs">🤝</span> Cat people — "thinking their pet is superior"</span>
+        <span class="mq-item">Marvel fans <span class="mq-hs">🤝</span> DC fans — "watching every single one anyway"</span>
+        <span class="mq-item">iPhone users <span class="mq-hs">🤝</span> Android users — "judging green bubbles"</span>
+        <span class="mq-item">Frontend devs <span class="mq-hs">🤝</span> Backend devs — "blaming DevOps"</span>
+        <span class="mq-item">Vegans <span class="mq-hs">🤝</span> Carnivores — "making diet a personality"</span>
+        <span class="mq-item">Dog people <span class="mq-hs">🤝</span> Cat people — "thinking their pet is superior"</span>
+        <span class="mq-item">Marvel fans <span class="mq-hs">🤝</span> DC fans — "watching every single one anyway"</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMMUNITY WALL -->
+<div class="section">
+  <div class="label">Page 2 — Community Wall</div>
+  <div class="pw">
+    <div class="nav2">
+      <div class="logo2">SHAKE<span>ON</span> 🤝</div>
+      <div class="nav2-links">
+        <a href="#">Generate</a>
+        <a href="#" style="color:#111;text-decoration:underline">Wall</a>
+        <a href="#">Twitter ↗</a>
+      </div>
+    </div>
+    <div class="wall2">
+      <h2>🏆 THE WALL</h2>
+      <div class="tabs2">
+        <div class="tab2 on">Today</div>
+        <div class="tab2 off">This Week</div>
+        <div class="tab2 off">All Time</div>
+      </div>
+      <div class="card-grid2">
+        <div class="fc2">
+          <div class="fc2-hs">Frontend devs 🤝 Backend devs</div>
+          <div class="fc2-c">"blaming DevOps"</div>
+          <div class="fc2-footer">
+            <button class="upvote2">▲ 247</button>
+            <span class="share2">share ↗</span>
+          </div>
+        </div>
+        <div class="fc2">
+          <div class="fc2-hs">iPhone users 🤝 Android users</div>
+          <div class="fc2-c">"judging green bubbles"</div>
+          <div class="fc2-footer">
+            <button class="upvote2">▲ 183</button>
+            <span class="share2">share ↗</span>
+          </div>
+        </div>
+        <div class="fc2">
+          <div class="fc2-hs">Vegans 🤝 Carnivores</div>
+          <div class="fc2-c">"making diet a personality"</div>
+          <div class="fc2-footer">
+            <button class="upvote2">▲ 142</button>
+            <span class="share2">share ↗</span>
+          </div>
+        </div>
+        <div class="fc2">
+          <div class="fc2-hs">Introverts 🤝 Extroverts</div>
+          <div class="fc2-c">"cancelling plans"</div>
+          <div class="fc2-footer">
+            <button class="upvote2">▲ 98</button>
+            <span class="share2">share ↗</span>
+          </div>
+        </div>
+        <div class="fc2">
+          <div class="fc2-hs">Dog people 🤝 Cat people</div>
+          <div class="fc2-c">"thinking their pet is superior"</div>
+          <div class="fc2-footer">
+            <button class="upvote2">▲ 76</button>
+            <span class="share2">share ↗</span>
+          </div>
+        </div>
+        <div class="fc2">
+          <div class="fc2-hs">Windows 🤝 Mac users</div>
+          <div class="fc2-c">"spending too much on their setup"</div>
+          <div class="fc2-footer">
+            <button class="upvote2">▲ 61</button>
+            <span class="share2">share ↗</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
