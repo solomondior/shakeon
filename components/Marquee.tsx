@@ -7,7 +7,7 @@ export default function Marquee() {
     <div className="border-t border-gray-100 bg-gray-50 overflow-hidden py-3">
       <div
         className="inline-flex whitespace-nowrap"
-        style={{ animation: 'marquee 40s linear infinite' }}
+        style={{ animation: 'marquee 90s linear infinite' }}
       >
         {items.map((seed, i) => (
           <span key={i} className="inline-block px-8 text-[8px] text-gray-500" style={{ fontFamily: 'var(--font-pixel)' }}>

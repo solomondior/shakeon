@@ -1,20 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createSupabaseServerClient } from '@/lib/supabase-server'
 
-const VALID = new Set(['laugh', 'skull', 'shake'])
-
 export async function POST(req: NextRequest) {
   try {
-    const { id, reaction, decrement } = await req.json()
+    const { id, secret } = await req.json()
     if (!id || typeof id !== 'string') {
       return NextResponse.json({ error: 'invalid id' }, { status: 400 })
     }
-    if (!VALID.has(reaction)) {
-      return NextResponse.json({ error: 'invalid reaction' }, { status: 400 })
+    if (!secret || secret !== process.env.ADMIN_SECRET) {
+      return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
     }
     const supabase = await createSupabaseServerClient()
-    const rpc = decrement ? 'decrement_reaction' : 'increment_reaction'
-    const { error } = await supabase.rpc(rpc, { row_id: id, reaction })
+    const { error } = await supabase.from('handshakes').delete().eq('id', id)
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     return NextResponse.json({ ok: true })
   } catch {
