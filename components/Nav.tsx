@@ -9,6 +9,7 @@ export default function Nav() {
   const links = [
     { href: '/#generator', label: 'generate', scrollTo: 'generator' },
     { href: '/#wall',      label: 'wall',     scrollTo: 'wall' },
+    { href: '/stats',      label: 'stats',    scrollTo: '' },
   ]
 
   function handleScroll(e: React.MouseEvent, scrollTo: string) {

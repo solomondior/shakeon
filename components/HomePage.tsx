@@ -5,8 +5,13 @@ import Nav from '@/components/Nav'
 import Handshake from '@/components/Handshake'
 import Marquee from '@/components/Marquee'
 import Card from '@/components/Card'
+import ThemePicker from '@/components/ThemePicker'
+import TemplatePacks from '@/components/TemplatePacks'
+import TrendingStrip from '@/components/TrendingStrip'
+import DailyHandshake from '@/components/DailyHandshake'
 import { getRandomSeed } from '@/lib/seeds'
 import { getBrowserClient, type Handshake as HandshakeType } from '@/lib/supabase'
+import { DEFAULT_THEME, type Theme } from '@/lib/themes'
 
 const PAGE_SIZE = 12
 type Tab = 'today' | 'week' | 'alltime' | 'new'
@@ -21,9 +26,10 @@ interface HomePageProps {
   initialItems: HandshakeType[]
   initialHasMore: boolean
   totalCount: number
+  dailyItem: HandshakeType | null
 }
 
-function HomePageContent({ initialItems, initialHasMore, totalCount: initialTotal }: HomePageProps) {
+function HomePageContent({ initialItems, initialHasMore, totalCount: initialTotal, dailyItem }: HomePageProps) {
   const searchParams = useSearchParams()
 
   // Generator state
@@ -36,6 +42,7 @@ function HomePageContent({ initialItems, initialHasMore, totalCount: initialTota
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [copied, setCopied]   = useState(false)
   const [totalCount, setTotalCount]   = useState(initialTotal)
+  const [theme, setTheme]     = useState<Theme>(DEFAULT_THEME)
 
   // Wall state
   const [tab, setTab]         = useState<Tab>('today')
@@ -211,7 +218,8 @@ function HomePageContent({ initialItems, initialHasMore, totalCount: initialTota
           two sides. one handshake. build the truth.
         </p>
 
-        <Handshake left={left} right={right} center={center} />
+        <ThemePicker selected={theme.id} onChange={setTheme} />
+        <Handshake left={left} right={right} center={center} theme={theme} />
 
         {/* Inputs */}
         <div className="mt-7 space-y-2.5">
@@ -250,6 +258,11 @@ function HomePageContent({ initialItems, initialHasMore, totalCount: initialTota
           <button onClick={handleRandom} className={`${btnBase} bg-white border-gray-200 hover:border-black`} style={pxFont}>random</button>
           <button onClick={handleDownload} disabled={!rendered || downloading} className={`${btnBase} bg-white border-gray-200 hover:border-black`} style={pxFont}>{downloading ? 'saving...' : 'download'}</button>
         </div>
+
+        <TemplatePacks onSelect={seed => {
+          setLeft(seed.left); setRight(seed.right); setCenter(seed.center)
+          setRendered(true); setSubmitStatus('idle')
+        }} />
 
         {/* Share + submit row */}
         {rendered && (
@@ -303,6 +316,9 @@ function HomePageContent({ initialItems, initialHasMore, totalCount: initialTota
           the wall 🏆
         </h2>
 
+        <TrendingStrip />
+        <DailyHandshake item={dailyItem} />
+
         {/* Tabs */}
         <div className="inline-flex border border-black rounded overflow-hidden mb-8">
           {wallTabs.map((t, i) => (
@@ -346,7 +362,7 @@ function HomePageContent({ initialItems, initialHasMore, totalCount: initialTota
   )
 }
 
-export default function HomePage(props: HomePageProps) {
+export default function HomePage(props: HomePageProps & { dailyItem: HandshakeType | null }) {
   return (
     <Suspense>
       <HomePageContent {...props} />
