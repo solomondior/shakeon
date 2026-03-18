@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ShakeOn 🤝
 
-## Getting Started
+> Build handshake memes. Two sides. One truth.
 
-First, run the development server:
+## Setup
 
 ```bash
+npm install
+cp .env.example .env.local
+# Fill in your Supabase credentials in .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Description |
+|----------|-------------|
+| `NEXT_PUBLIC_SUPABASE_URL` | Your Supabase project URL (Settings → API) |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Your Supabase anon/public key (Settings → API) |
 
-## Learn More
+## Supabase Setup
 
-To learn more about Next.js, take a look at the following resources:
+Run this SQL in your Supabase SQL editor (Database → SQL Editor):
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```sql
+create table handshakes (
+  id uuid primary key default gen_random_uuid(),
+  "left"  text not null,
+  "right" text not null,
+  center  text,
+  upvotes integer not null default 0,
+  created_at timestamptz not null default now()
+);
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+create index on handshakes (created_at, upvotes desc);
 
-## Deploy on Vercel
+alter table handshakes enable row level security;
+create policy "read all"   on handshakes for select using (true);
+create policy "insert all" on handshakes for insert with check (true);
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+-- SECURITY DEFINER lets anon users trigger an UPDATE via RPC
+create or replace function increment_upvote(row_id uuid)
+returns void language sql security definer as $$
+  update handshakes set upvotes = upvotes + 1 where id = row_id;
+$$;
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Seed starter submissions
+
+```sql
+insert into handshakes ("left", "right", center) values
+  ('people who wake up at 5am', 'people who stay up until 5am', 'telling everyone about their sleep schedule'),
+  ('iphone users', 'android users', 'judging people with green bubbles'),
+  ('frontend devs', 'backend devs', 'blaming devops'),
+  ('vegans', 'carnivores', 'making their diet a personality'),
+  ('people who hate mondays', 'people who love mondays', 'talking about it constantly'),
+  ('tea drinkers', 'coffee drinkers', 'judging the other side'),
+  ('gym rats', 'people who never exercise', 'owning gym clothes'),
+  ('introverts', 'extroverts', 'cancelling plans'),
+  ('chrome users', 'safari users', 'having too many tabs open'),
+  ('dog people', 'cat people', 'thinking their pet is superior'),
+  ('people who reply instantly', 'people who leave you on read', 'being tired'),
+  ('marvel fans', 'dc fans', 'watching every single one anyway'),
+  ('windows users', 'mac users', 'spending too much on their setup'),
+  ('tourists', 'locals', 'complaining about tourists');
+```
+
+## Deployment
+
+1. Push to GitHub
+2. Import at [vercel.com](https://vercel.com)
+3. Add environment variables in the Vercel dashboard
+4. Deploy
+
+## Tech Stack
+
+- [Next.js 16](https://nextjs.org) — App Router
+- [Tailwind CSS v4](https://tailwindcss.com)
+- [Supabase](https://supabase.com) — Postgres + RLS
+- [html2canvas](https://html2canvas.hertzen.com) — PNG download
+- [@vercel/og](https://vercel.com/docs/og-image-generation) — OG image generation
+- [Press Start 2P](https://fonts.google.com/specimen/Press+Start+2P) — pixel font
