@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createSupabaseServerClient } from '@/lib/supabase-server'
+import { createClient } from '@supabase/supabase-js'
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,7 +10,11 @@ export async function POST(req: NextRequest) {
     if (!secret || secret !== process.env.ADMIN_SECRET) {
       return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
     }
-    const supabase = await createSupabaseServerClient()
+    // Use service role key to bypass RLS
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    )
     const { error } = await supabase.from('handshakes').delete().eq('id', id)
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     return NextResponse.json({ ok: true })
