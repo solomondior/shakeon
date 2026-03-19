@@ -15,4 +15,5 @@ body {
   background: #ffffff;
   color: #111111;
   font-family: var(--font-pixel);
+  zoom: 1.25;
 }
