@@ -43,7 +43,7 @@ export default function Nav() {
           buy
         </a>
         <a
-          href="https://twitter.com/intent/tweet?text=Check+out+ShakeOn+%F0%9F%A4%9D&url=https://shakeon.vercel.app"
+          href="https://twitter.com/intent/tweet?text=Check+out+Handshake+%F0%9F%A4%9D&url=https://handshake-jade.vercel.app"
           target="_blank"
           rel="noopener noreferrer"
           className="px-4 py-2 text-[9px] leading-none transition-colors border-l border-black bg-white text-black hover:bg-gray-100"

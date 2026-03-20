@@ -52,7 +52,7 @@ export default function CardModal({
       >
         {/* Header */}
         <div className="flex items-center justify-between px-5 pt-5 pb-3 border-b border-gray-100">
-          <span className="text-[7px] text-gray-400" style={pxFont}>shakeon</span>
+          <span className="text-[7px] text-gray-400" style={pxFont}>handshake</span>
           <button onClick={onClose} className="text-gray-400 hover:text-black transition-colors text-lg leading-none">✕</button>
         </div>
 

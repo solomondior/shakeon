@@ -156,7 +156,7 @@ function HomePageContent({ initialItems, initialHasMore, totalCount: initialTota
       if (!el) return
       const canvas = await html2canvas(el, { useCORS: true, scale: 2 })
       const link = document.createElement('a')
-      link.download = 'shakeon-meme.png'
+      link.download = 'handshake-meme.png'
       link.href = canvas.toDataURL('image/png')
       link.click()
     } finally {

@@ -14,7 +14,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const ogUrl = `/api/og?l=${encodeURIComponent(l)}&r=${encodeURIComponent(r)}&c=${encodeURIComponent(c)}`
 
   return {
-    title: `${l} 🤝 ${r} — ShakeOn`,
+    title: `${l} 🤝 ${r} — Handshake`,
     description: c ? `"${c}"` : 'Two sides. One handshake.',
     openGraph: {
       title: `${l} 🤝 ${r}`,

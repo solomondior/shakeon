@@ -30,7 +30,7 @@ export default function Splash() {
           color: '#111',
           marginBottom: 8,
         }}>
-          SHAKEON
+          HANDSHAKE
         </div>
 
         {/* Yellow bar slides in */}

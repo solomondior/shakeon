@@ -27,7 +27,7 @@ export default async function LorePage() {
             official documentation
           </p>
           <h1 className="text-3xl sm:text-4xl font-bold text-black mb-4 leading-tight" style={ser}>
-            The ShakeOn Accords
+            The Handshake Accords
           </h1>
           <p className="text-sm text-gray-500 italic" style={ser}>
             A living record of shared truths. Established March 2026.
@@ -37,7 +37,7 @@ export default async function LorePage() {
         {/* ── Origin ── */}
         <Section title="I. Origin">
           <p>
-            ShakeOn was established in March 2026 following a period of unprecedented
+            Handshake was established in March 2026 following a period of unprecedented
             global disagreement. Two hands reached across the divide. The rest is history.
           </p>
           <p>
@@ -57,7 +57,7 @@ export default async function LorePage() {
         {/* ── Anatomy ── */}
         <Section title="III. Anatomy of a Handshake">
           <p className="mb-8">
-            The ShakeOn format follows a precise three-part structure, each component
+            The Handshake format follows a precise three-part structure, each component
             carrying specific semantic weight within the taxonomy of shared truths.
           </p>
 
@@ -155,7 +155,7 @@ export default async function LorePage() {
               ['March 2026', 'First handshake recorded. No witnesses. No context. Simply: two sides, one truth.'],
               ['March 2026', 'The Wall opens to the public. Submissions exceed all projections within the first hour.'],
               ['March 2026', 'The Hall of Fame induction threshold is established. The criteria: 50 upvotes. The significance: immeasurable.'],
-              ['March 2026', 'The ShakeOn Accords are formalised in this document. History, now, is permanent.'],
+              ['March 2026', 'The Handshake Accords are formalised in this document. History, now, is permanent.'],
             ].map(([date, event], i) => (
               <div key={i} className="flex gap-5 pb-8 relative">
                 <div className="flex flex-col items-center">
@@ -176,7 +176,7 @@ export default async function LorePage() {
           <p className="text-lg text-gray-500 italic leading-relaxed" style={ser}>
             &ldquo;Every handshake tells a truth nobody wanted to admit.&rdquo;
           </p>
-          <p className="text-[7px] text-gray-300 mt-3" style={px}>— The ShakeOn Accords, Preamble</p>
+          <p className="text-[7px] text-gray-300 mt-3" style={px}>— The Handshake Accords, Preamble</p>
         </div>
 
       </main>

@@ -65,7 +65,7 @@ export async function GET(req: NextRequest) {
             color: '#aaa',
           }}
         >
-          shakeon
+          handshake
         </div>
       </div>
     ),
