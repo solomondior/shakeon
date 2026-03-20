@@ -34,7 +34,7 @@ export default function Nav() {
           </Link>
         ))}
         <a
-          href="https://pump.fun"
+          href="https://pump.fun/coin/4di38r1EsioQNiyXypiwe9NWxf3wQQGB4Fy7tVBDpump"
           target="_blank"
           rel="noopener noreferrer"
           className="px-4 py-2 text-[9px] leading-none transition-colors border-l border-black bg-[#FFD600] text-black hover:bg-yellow-300"
