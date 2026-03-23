@@ -162,21 +162,20 @@ export default function HowItWorks() {
             </span>
             <span>dogs</span>
           </div>
-          {emojiIn && (
-            <div style={{
-              marginTop: 10,
-              border: '1px solid #e5e7eb',
-              borderRadius: 8,
-              padding: '6px 10px',
-              fontSize: 7,
-              color: '#555',
-              textAlign: 'center' as const,
-              animation: 'fadeUp 0.35s ease forwards',
-              ...pxFont,
-            }}>
-              &quot;being tired&quot;
-            </div>
-          )}
+          <div style={{
+            marginTop: 10,
+            border: '1px solid #e5e7eb',
+            borderRadius: 8,
+            padding: '6px 10px',
+            fontSize: 7,
+            color: '#555',
+            textAlign: 'center' as const,
+            opacity: emojiIn ? 1 : 0,
+            transition: 'opacity 0.35s ease',
+            ...pxFont,
+          }}>
+            &quot;being tired&quot;
+          </div>
         </div>
 
         {/* ── Step 3 ── */}
@@ -207,13 +206,16 @@ export default function HowItWorks() {
               position: 'absolute',
               bottom: cursorClick ? 38 : 42,
               left: cursorClick ? 54 : 58,
-              fontSize: 14,
               pointerEvents: 'none',
-              transform: cursorClick ? 'scale(0.85)' : 'scale(1)',
               transition: 'all 0.18s ease',
               animation: 'fadeUp 0.3s ease forwards',
+              display: 'inline-block',
+              transform: cursorClick ? 'scale(0.85)' : 'scale(1)',
             }}>
-              🖱️
+              <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 0L0 11L3 8H6L8 13L10 12L8 7H12L0 0Z" fill="#111" />
+                <path d="M1 2L1 9.5L3.5 7H6.2L8.2 12L8.8 11.7L6.8 6.5H10.5L1 2Z" fill="#FFD600" />
+              </svg>
             </span>
           )}
         </div>

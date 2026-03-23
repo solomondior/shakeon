@@ -375,6 +375,32 @@ function HomePageContent({ initialItems, initialHasMore, totalCount: initialTota
         )}
       </div>
 
+      {/* ─── BONK.FUN BADGE ─── */}
+      <a
+        href="https://www.bonk.fun/token/B4rrC42NkSo7ozkuVfjXw66myRpc2oMfVF35jX52bonk"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-5 right-5 z-50 w-[110px] select-none block"
+      >
+        <div className="relative bg-white border border-black rounded-xl p-2 pb-2 shadow-[4px_4px_0_#111] transition-all duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_#111] active:translate-x-0.5 active:translate-y-0.5 active:shadow-[2px_2px_0_#111]">
+          {/* LIVE badge */}
+          <div className="absolute -top-2.5 -right-2.5 bg-[#FFD600] text-black text-[6px] px-2 py-1 border border-black rounded shadow-[2px_2px_0_#111] z-10 flex items-center gap-1" style={pxFont}>
+            <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+            LIVE
+          </div>
+          {/* Mascot area */}
+          <div className="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg h-[72px] mb-2">
+            <span style={{ fontSize: 40, lineHeight: 1 }}>🤝</span>
+          </div>
+          {/* Label */}
+          <div className="bg-[#FFD600] border border-black rounded-lg px-2 py-1.5 text-center">
+            <span className="text-black text-[7px] leading-tight block" style={pxFont}>
+              LIVE ON<br />BONK.FUN
+            </span>
+          </div>
+        </div>
+      </a>
+
       {/* ─── MARQUEE DIVIDER ─── */}
       <Marquee />
 
