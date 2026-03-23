@@ -34,7 +34,7 @@ export default function Nav() {
           </Link>
         ))}
         <a
-          href="https://www.bonk.fun/token/B4rrC42NkSo7ozkuVfjXw66myRpc2oMfVF35jX52bonk"
+          href="https://www.bonk.fun/token/FoxLHMknArdydsjhDR4PZEacKurZ4Kz8ZZP32KYMbonk"
           target="_blank"
           rel="noopener noreferrer"
           className="px-4 py-2 text-[9px] leading-none transition-colors border-l border-black bg-[#FFD600] text-black hover:bg-yellow-300"

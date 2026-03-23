@@ -377,7 +377,7 @@ function HomePageContent({ initialItems, initialHasMore, totalCount: initialTota
 
       {/* ─── BONK.FUN BADGE ─── */}
       <a
-        href="https://www.bonk.fun/token/B4rrC42NkSo7ozkuVfjXw66myRpc2oMfVF35jX52bonk"
+        href="https://www.bonk.fun/token/FoxLHMknArdydsjhDR4PZEacKurZ4Kz8ZZP32KYMbonk"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-5 right-5 z-50 w-[110px] select-none block"
